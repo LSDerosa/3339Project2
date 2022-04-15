@@ -5,3 +5,12 @@
 #include "bintree.h"
 
 
+
+BinTree::BinTree() {
+    root = nullptr;
+}
+
+
+BinTree::~BinTree () {
+
+}
