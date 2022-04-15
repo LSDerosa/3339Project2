@@ -33,10 +33,26 @@ void BinTree::displayTree() {
 
 void BinTree::clear(){}                       //deallocate the tree and set it back to “empty.”
 
-bool BinTree::addNode(int, const string*){
-    return 0;
+bool BinTree::addNode(int id, const string* dataString){
+    bool result = false;
+    if (id > 0 && dataString->length() > 0) {
+        DataNode *newNode = new DataNode();                         //Allocate Node
+        newNode->data.id = id;
+        newNode->data.information = *dataString;
+        newNode->right = nullptr;
+        newNode->lefnewNode, (root))){
+               ret = nullptr;
+           if (addNode(sult = true;
+               count += 1;
+           }
+
+    }
+    return result;
 }   //pass in and return the same as in previous
 //structures from previous assignments.
+
+
+
 bool BinTree::removeNode(int){
     return 0;
 }               //pass in and return the same as previous structures
@@ -61,9 +77,31 @@ void BinTree::displayInOrder(){}              //do an in-order traversal, printi
 
 //PRIVATE FUNCTIONS
 void BinTree::clear(DataNode*){}
-bool BinTree::addNode(DataNode*, DataNode**){
-    return 0;
-}
+
+bool BinTree::addNode(DataNode* newNode, DataNode** root) {
+    bool result = false;
+    if (!(*root)) {                           //Check if tree exists
+        *root = newNode;
+    }
+    else if (newNode->data.id < (*root)->data.id) {                 // Check if val is < or > this nodes value
+        if ((*root)->left == nullptr) {                                                     //Make new Node
+            (*root)->left = newNode;
+        } else {
+            addNode(newNode, &(*root)->left);          //recursively call going left
+        }
+    } else {
+        if ((*root)->right == nullptr) {
+            (*root)->right = newNode;
+        }
+                else {
+            addNode(newNode, &(*root)->right);
+                }
+            }
+    return result;
+        }
+
+
+
 DataNode* BinTree::removeNode(int, DataNode*){
     return 0;
 }
