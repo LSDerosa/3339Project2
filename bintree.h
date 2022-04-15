@@ -7,9 +7,11 @@ File: linkedlist.h
 
 #ifndef BINTREE_BINTREE_H
 #define BINTREE_BINTREE_H
+
 #include "data.h"
 #include <iostream>
 #include <iomanip>
+
 
 using std::cout;
 using std::endl;
@@ -60,12 +62,7 @@ private:
     void displayPreOrder(DataNode*);
     void displayPostOrder(DataNode*);
     void displayInOrder(DataNode*);
-    Node *head;
 };
-
-
-#endif /*LINKEDLIST_H*/
-
 
 
 #endif /* BINTREE_BINTREE_H */
