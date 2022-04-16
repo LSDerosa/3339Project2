@@ -45,7 +45,6 @@ displayInOrder();
 }                 /* Display all stats for the tree as shown in the examples and
                                         // call all display order methods.*/
 
-void BinTree::clear(){}                       //deallocate the tree and set it back to “empty.”
 
 bool BinTree::addNode(int id, const string* dataString){
     bool result = false;
@@ -78,8 +77,7 @@ bool BinTree::contains(int){
 }                 //pass in and return the same as previous structures
 
 int BinTree::getHeight(){
-    int height = 0;
-    height = getHeight(root);
+    int height = getHeight(root);
     return height;
 }                    //dynamically calculate the height of the tree (do not store height,
 //calculate it each time getHeight() is called.
@@ -90,10 +88,36 @@ void BinTree::displayPostOrder(){}            //do a post-order traversal, print
 
 
 void BinTree::displayInOrder() {
-    displayInOrder(root);            //do an in-order traversal, printing as you go
+    displayInOrder(root);            //do an in-order traversal, printing as you
 }
+
+
+void BinTree::clear(){
+    clear(root);
+    root = nullptr;
+}                       //deallocate the tree and set it back to “empty.”
 //*******************************************PRIVATE FUNCTIONS************************************************
-void BinTree::clear(DataNode*){}
+void BinTree::clear(DataNode* tempRoot) {
+        if (tempRoot->left != nullptr) {
+            clear(tempRoot->left);
+        }
+        if (tempRoot->right != nullptr) {
+            clear(tempRoot->right);
+        }
+    delete tempRoot;
+    count=0;
+}
+
+
+int BinTree::getHeight(DataNode* tempRoot){
+    int height=0;
+    if (tempRoot != nullptr) {
+        int lh = getHeight(tempRoot->left);
+        int rh = getHeight(tempRoot->right);
+        height = lh > rh ? lh + 1 : rh + 1;
+    }
+    return height;
+}
 
     void BinTree::displayInOrder(DataNode *temproot) {
 
@@ -147,22 +171,7 @@ bool BinTree::getNode(Data*, int, DataNode*){
 bool BinTree::contains(int, DataNode*){
     return 0;
 }
-int BinTree::getHeight(DataNode* tempRoot){
-    int lh = 0;
-    int rh = 0;
-    int height;
-        if (tempRoot->left) {
-            lh +=1;
-            getHeight(tempRoot->left);
-        }
-        if (tempRoot->right) {
-            rh +=1;
-            getHeight(tempRoot->right);
 
-        }
-        height = (std::max(lh, rh)+1);
-    return height;
-}
 
 void BinTree::displayPreOrder(DataNode*){}
 void BinTree::displayPostOrder(DataNode*){}
