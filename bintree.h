@@ -50,7 +50,7 @@ public:
 
     void displayInOrder();              //do an in-order traversal, printing as you go
     ~BinTree(); //Destructor
-    int count;
+    int count = 0;
     DataNode *root;
 private:
     void clear(DataNode*);

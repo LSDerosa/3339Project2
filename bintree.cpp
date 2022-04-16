@@ -7,22 +7,35 @@
 
 BinTree::BinTree() {
     root = nullptr;
-    int count = 0;
 }
 
 
 
 bool BinTree::isEmpty(){
-    return 0;
+   bool result = false;
+    if (root = nullptr){
+        result = true;
+    }
+    return result;
 }                   //test for is empty, return T/F
 
 int BinTree::getCount(){
-    return 0;
+    return count;
 }                     //return count
 
-bool BinTree::getRootData(Data*)
+bool BinTree::getRootData(Data* currentData)
 {
-    return 0;
+    bool result = false;
+    if (root == nullptr){
+        currentData->id = -1;
+        currentData->information = "";
+    }
+    else {
+        currentData->id =  (*root).data.id;
+        currentData->information =  (*root).data.information;
+        result = true;
+    }
+    return result;
 }            /*pass (by reference) an “empty” Data struct from
                                         main() and fill it with root’s data if the tree is not empty, otherwise place -1 and an
                                         empty string in the struct. Return T/F based on if data was retrieved.*/
@@ -40,17 +53,11 @@ bool BinTree::addNode(int id, const string* dataString){
         DataNode *newNode = new DataNode();                         //Allocate Node
         newNode->data.id = id;
         newNode->data.information = *dataString;
-        newNode->right = nullptr;
+        newNode->right=nullptr;
         newNode->left=nullptr;
-        if (addNode(newNode, &root ))
-        {}
-       /* ewNode, (root))){
-               ret = nullptr;
-           if (addNode(
-                   sult = true;
-               count += 1;
-           }*/
-
+        if (addNode(newNode, &root )) {
+            result = true;
+        }
     }
     return result;
 }   //pass in and return the same as in previous
@@ -106,11 +113,11 @@ bool BinTree::addNode(DataNode* newNode, DataNode** root) {
     bool result = false;
     if (!(*root)) {                           //Check if tree exists
         *root = newNode;
+        count +=1;
     }
     else if (newNode->data.id < (*root)->data.id) {                 // Check if val is < or > this nodes value
         if ((*root)->left == nullptr) {                                                     //Make new left Node
             (*root)->left = newNode;
-            result = true;
             count +=1;
         } else {
             addNode(newNode, &(*root)->left);          //recursively call going left
@@ -118,12 +125,10 @@ bool BinTree::addNode(DataNode* newNode, DataNode** root) {
     } else {
         if ((*root)->right == nullptr) {
             (*root)->right = newNode;               //make new right node
-            result = true;
             count +=1;
         }
                 else {
             addNode(newNode, &(*root)->right);          //recursively call going right
-            result = true;
                 }
             }
     return result;

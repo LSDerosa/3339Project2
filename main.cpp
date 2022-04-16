@@ -58,6 +58,7 @@ int main(int argc, char** argv) {
     /*
      *  filling tree with test data and displaying
      */
+    cout << binSearchTree->getCount()<<endl;
     cout << "Filling Tree" << endl;
     cout << "==============================================" << endl;
     for (int i = 0; i < TESTDATA1; i++) {
@@ -70,6 +71,7 @@ int main(int argc, char** argv) {
     }
     cout << endl;
     binSearchTree->displayTree();
+    cout << binSearchTree->getCount()<<endl;
 
     cout << "Testing getRootData() on non-empty tree" << endl;
     cout << "==============================================" << endl;
