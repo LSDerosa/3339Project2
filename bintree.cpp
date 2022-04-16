@@ -7,6 +7,7 @@
 
 BinTree::BinTree() {
     root = nullptr;
+    int count = 0;
 }
 
 
@@ -27,7 +28,7 @@ bool BinTree::getRootData(Data*)
                                         empty string in the struct. Return T/F based on if data was retrieved.*/
 
 void BinTree::displayTree() {
-
+displayInOrder();
 }                 /* Display all stats for the tree as shown in the examples and
                                         // call all display order methods.*/
 
@@ -77,10 +78,29 @@ void BinTree::displayPreOrder(){}             //do a pre-order traversal, printi
 
 void BinTree::displayPostOrder(){}            //do a post-order traversal, printing as you go
 
-void BinTree::displayInOrder(){}              //do an in-order traversal, printing as you go
 
-//PRIVATE FUNCTIONS
+
+void BinTree::displayInOrder() {
+    displayInOrder(root);            //do an in-order traversal, printing as you go
+}
+//*******************************************PRIVATE FUNCTIONS************************************************
 void BinTree::clear(DataNode*){}
+
+    void BinTree::displayInOrder(DataNode *temproot) {
+
+        if (temproot) {
+            if (temproot->left) {
+                displayInOrder(temproot->left);
+            }
+            cout << "test";
+            cout << temproot->data.id << " " << temproot->data.information << endl;
+            if (temproot->right) {
+                displayInOrder(temproot->right);
+            }
+        }
+
+        return;
+    }
 
 bool BinTree::addNode(DataNode* newNode, DataNode** root) {
     bool result = false;
@@ -88,17 +108,22 @@ bool BinTree::addNode(DataNode* newNode, DataNode** root) {
         *root = newNode;
     }
     else if (newNode->data.id < (*root)->data.id) {                 // Check if val is < or > this nodes value
-        if ((*root)->left == nullptr) {                                                     //Make new Node
+        if ((*root)->left == nullptr) {                                                     //Make new left Node
             (*root)->left = newNode;
+            result = true;
+            count +=1;
         } else {
             addNode(newNode, &(*root)->left);          //recursively call going left
         }
     } else {
         if ((*root)->right == nullptr) {
-            (*root)->right = newNode; //test
+            (*root)->right = newNode;               //make new right node
+            result = true;
+            count +=1;
         }
                 else {
-            addNode(newNode, &(*root)->right);
+            addNode(newNode, &(*root)->right);          //recursively call going right
+            result = true;
                 }
             }
     return result;
@@ -120,7 +145,7 @@ int BinTree::getHeight(DataNode*){
 }
 void BinTree::displayPreOrder(DataNode*){}
 void BinTree::displayPostOrder(DataNode*){}
-void BinTree::displayInOrder(DataNode*){}
+
 
 
 
