@@ -13,7 +13,7 @@ BinTree::BinTree() {
 
 bool BinTree::isEmpty(){
    bool result = false;
-    if (root = nullptr){
+    if (root == nullptr){
         result = true;
     }
     return result;
@@ -75,6 +75,16 @@ bool BinTree::getNode(Data*, int){
 bool BinTree::contains(int){
     return 0;
 }                 //pass in and return the same as previous structures
+
+
+
+
+
+
+
+
+
+
 
 int BinTree::getHeight(){
     int height = getHeight(root);
