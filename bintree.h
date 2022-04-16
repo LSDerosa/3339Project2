@@ -53,6 +53,7 @@ public:
     ~BinTree(); //Destructor
     int count = 0;
     DataNode *root;
+    DataNode* minValueNode(DataNode*);
 private:
     void clear(DataNode*);
     bool addNode(DataNode*, DataNode**); //DONE
