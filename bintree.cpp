@@ -68,12 +68,28 @@ bool BinTree::removeNode(int){
     return 0;
 }               //pass in and return the same as previous structures
 
-bool BinTree::getNode(Data*, int){
-    return 0;
-}           //pass in and return the same as previous structures.
+
+bool BinTree::getNode(Data* currentData, int id){
+    if (id > 0) {
+        return getNode(currentData, id, root);
+    }
+}
+
+
+
+
+
+    //pass in and return the same as previous structures.
 //you must use binary search search to retrieve the Node.
-bool BinTree::contains(int){
-    return 0;
+bool BinTree::contains(int id){
+    bool result;
+    if (id > 0) {
+        result = contains(id, root);
+    }
+    else {
+        result = false;
+    }
+    return result;
 }                 //pass in and return the same as previous structures
 
 
@@ -135,7 +151,6 @@ int BinTree::getHeight(DataNode* tempRoot){
             if (temproot->left) {
                 displayInOrder(temproot->left);
             }
-            cout << "test";
             cout << temproot->data.id << " " << temproot->data.information << endl;
             if (temproot->right) {
                 displayInOrder(temproot->right);
@@ -145,26 +160,26 @@ int BinTree::getHeight(DataNode* tempRoot){
         return;
     }
 
-bool BinTree::addNode(DataNode* newNode, DataNode** root) {
+bool BinTree::addNode(DataNode* newNode, DataNode** tempRoot) {
     bool result = false;
-    if (!(*root)) {                           //Check if tree exists
-        *root = newNode;
+    if (!(*tempRoot)) {                           //Check if tree exists
+        *tempRoot = newNode;
         count +=1;
     }
-    else if (newNode->data.id < (*root)->data.id) {                 // Check if val is < or > this nodes value
-        if ((*root)->left == nullptr) {                                                     //Make new left Node
-            (*root)->left = newNode;
+    else if (newNode->data.id < (*tempRoot)->data.id) {                 // Check if val is < or > this nodes value
+        if ((*tempRoot)->left == nullptr) {                                                     //Make new left Node
+            (*tempRoot)->left = newNode;
             count +=1;
         } else {
-            addNode(newNode, &(*root)->left);          //recursively call going left
+            addNode(newNode, &(*tempRoot)->left);          //recursively call going left
         }
     } else {
-        if ((*root)->right == nullptr) {
-            (*root)->right = newNode;               //make new right node
+        if ((*tempRoot)->right == nullptr) {
+            (*tempRoot)->right = newNode;               //make new right node
             count +=1;
         }
                 else {
-            addNode(newNode, &(*root)->right);          //recursively call going right
+            addNode(newNode, &(*tempRoot)->right);          //recursively call going right
                 }
             }
     return result;
@@ -175,12 +190,59 @@ bool BinTree::addNode(DataNode* newNode, DataNode** root) {
 DataNode* BinTree::removeNode(int, DataNode*){
     return 0;
 }
-bool BinTree::getNode(Data*, int, DataNode*){
-    return 0;
+
+
+
+
+
+bool BinTree::getNode(Data* currentData, int id, DataNode* tempRoot){
+    bool result = false;
+    if (tempRoot != nullptr) {
+        if (tempRoot->data.id != id) {
+            if (id < (tempRoot)->data.id) {
+               result = getNode(currentData, id, (tempRoot)->left);
+            }
+            else {
+                result = getNode(currentData, id, (tempRoot)->right);
+            }
+        }
+        if (tempRoot->data.id == id) {
+            result = true;
+            currentData->id = (tempRoot)->data.id;
+            currentData->information = (tempRoot)->data.information;
+        }
+    }
+    return result;
 }
-bool BinTree::contains(int, DataNode*){
-    return 0;
+
+
+
+
+
+
+
+
+
+
+bool BinTree::contains(int id, DataNode* tempRoot){
+    bool result = false;
+    if (tempRoot != nullptr) {
+        if (tempRoot->data.id != id) {
+            if (id < (tempRoot)->data.id) {
+                result = contains(id, (tempRoot)->left);
+            }
+            else {
+                result = contains(id, (tempRoot)->right);
+            }
+        }
+        if (tempRoot->data.id == id) {
+            result = true;
+        }
+    }
+    return result;
 }
+
+
 
 
 void BinTree::displayPreOrder(DataNode*){}
