@@ -1,15 +1,15 @@
-/*
- * Your comment header here
- */
+/*********************
+Name: Lucas De Rosa
+Cosc 2436
+Purpose: Coding 7, Binary Search Tree
+File: bintree.cpp
+**********************/
 
 #include "bintree.h"
-
 
 BinTree::BinTree() {
     root = nullptr;
 }
-
-
 
 bool BinTree::isEmpty(){
    bool result = false;
@@ -78,7 +78,9 @@ bool BinTree::contains(int){
 }                 //pass in and return the same as previous structures
 
 int BinTree::getHeight(){
-    return 0;
+    int height = 0;
+    height = getHeight(root);
+    return height;
 }                    //dynamically calculate the height of the tree (do not store height,
 //calculate it each time getHeight() is called.
 void BinTree::displayPreOrder(){}             //do a pre-order traversal, printing as you go
@@ -145,9 +147,23 @@ bool BinTree::getNode(Data*, int, DataNode*){
 bool BinTree::contains(int, DataNode*){
     return 0;
 }
-int BinTree::getHeight(DataNode*){
-    return 0;
+int BinTree::getHeight(DataNode* tempRoot){
+    int lh = 0;
+    int rh = 0;
+    int height;
+        if (tempRoot->left) {
+            lh +=1;
+            getHeight(tempRoot->left);
+        }
+        if (tempRoot->right) {
+            rh +=1;
+            getHeight(tempRoot->right);
+
+        }
+        height = (std::max(lh, rh)+1);
+    return height;
 }
+
 void BinTree::displayPreOrder(DataNode*){}
 void BinTree::displayPostOrder(DataNode*){}
 

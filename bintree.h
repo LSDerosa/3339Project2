@@ -1,8 +1,8 @@
 /*********************
 Name: Lucas De Rosa
 Cosc 2436
-Purpose: Coding 5, Linked List
-File: linkedlist.h
+Purpose: Coding 7, Binary Search Tree
+File: bintree.h
 **********************/
 
 #ifndef BINTREE_BINTREE_H
@@ -11,6 +11,7 @@ File: linkedlist.h
 #include "data.h"
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 
 
 using std::cout;
@@ -54,7 +55,7 @@ public:
     DataNode *root;
 private:
     void clear(DataNode*);
-    bool addNode(DataNode*, DataNode**);
+    bool addNode(DataNode*, DataNode**); //DONE
     DataNode* removeNode(int, DataNode*);
     bool getNode(Data*, int, DataNode*);
     bool contains(int, DataNode*);
