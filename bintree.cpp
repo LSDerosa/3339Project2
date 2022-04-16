@@ -95,7 +95,7 @@ bool BinTree::addNode(DataNode* newNode, DataNode** root) {
         }
     } else {
         if ((*root)->right == nullptr) {
-            (*root)->right = newNode;
+            (*root)->right = newNode; //test
         }
                 else {
             addNode(newNode, &(*root)->right);
