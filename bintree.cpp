@@ -40,11 +40,15 @@ bool BinTree::addNode(int id, const string* dataString){
         newNode->data.id = id;
         newNode->data.information = *dataString;
         newNode->right = nullptr;
-        newNode->lefnewNode, (root))){
+        newNode->left=nullptr;
+        if (addNode(newNode, &root ))
+        {}
+       /* ewNode, (root))){
                ret = nullptr;
-           if (addNode(sult = true;
+           if (addNode(
+                   sult = true;
                count += 1;
-           }
+           }*/
 
     }
     return result;
