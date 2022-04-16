@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
     cout << endl;
 
     cout << "adding 35... ";
-    string *tmp = new string("thirty five");
+    string *tmp = new string("");
     if (binSearchTree->addNode(35, tmp)) {
         cout << "added" << endl;
     }

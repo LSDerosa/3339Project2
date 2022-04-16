@@ -7,23 +7,55 @@ File: bintree.cpp
 
 #include "bintree.h"
 
+
+//****************CONSTRUCTOR*************************
 BinTree::BinTree() {
     root = nullptr;
 }
 
-bool BinTree::isEmpty(){
-   bool result = false;
-    if (root == nullptr){
+//************************************************************************************************************
+//***************PUBLIC FUNCTIONS*****************************************************************************
+//************************************************************************************************************
+
+
+//*********PUBLIC UTILITY FUNCTIONS**************************
+
+
+bool BinTree::addNode(int id, const string* dataString){            //***ADD NODE TO TREE IN ORDER
+    bool result;
+    if (id > 0 && dataString->length() > 0) {
+        DataNode *newNode = new DataNode();                         //allocate and fill node
+        newNode->data.id = id;
+        newNode->data.information = *dataString;
+        newNode->right=nullptr;
+        newNode->left=nullptr;
+        result = (addNode(newNode, &root));
+    }
+    else {
+        result = false;
+    }
+    return result;
+}
+
+bool BinTree::removeNode(int id){                                   //***DELETE ID IF IT EXISTS AND REORGANIZE TREE
+    bool result = false;
+    int tempCount = count;
+    root = removeNode(id, root);
+    if (count < tempCount){
         result = true;
     }
     return result;
-}                   //test for is empty, return T/F
+}
 
-int BinTree::getCount(){
-    return count;
-}                     //return count
+void BinTree::clear(){                                              //***SET TREE TO EMPTY AND DEALLOCATE***
+    clear(root);
+    root = nullptr;
+}
 
-bool BinTree::getRootData(Data* currentData)
+
+//*******************PUBLIC GET FUNCTIONS*******************
+
+bool BinTree::getRootData(Data* currentData)                        //***Return Root Data
 {
     bool result = false;
     if (root == nullptr){
@@ -31,16 +63,43 @@ bool BinTree::getRootData(Data* currentData)
         currentData->information = "";
     }
     else {
-        currentData->id =  (*root).data.id;
+        currentData->id = (*root).data.id;
         currentData->information =  (*root).data.information;
         result = true;
     }
     return result;
-}            /*pass (by reference) an “empty” Data struct from
-                                        main() and fill it with root’s data if the tree is not empty, otherwise place -1 and an
-                                        empty string in the struct. Return T/F based on if data was retrieved.*/
+}
 
-void BinTree::displayTree() {
+bool BinTree::getNode(Data* currentData, int id){               //***Search for and return node on ID
+    bool result = false;
+    if (id > 0) {
+        result = getNode(currentData, id, root);
+    }
+    return result;
+}
+
+
+bool BinTree::contains(int id){                                 //***Return T/F if ID is found
+    bool result;
+    if (id > 0) {
+        result = contains(id, root);
+    }
+    else {
+        result = false;
+    }
+    return result;
+}
+
+bool BinTree::isEmpty(){                                        //***Return T/F if tree is empty
+    bool result = false;
+    if (root == nullptr){
+        result = true;
+    }
+    return result;
+}
+
+//*************PUBLIC DISPLAY AND TREE STAT FUNCTIONS*********************
+void BinTree::displayTree() {                                      //***Display tree and stats
     cout <<"DISPLAY TREE"<<endl;
     cout <<"=============================================="<<endl;
     if (isEmpty()) {
@@ -55,132 +114,60 @@ void BinTree::displayTree() {
     displayInOrder();
     displayPostOrder();
     cout <<"=============================================="<<endl;
-    }                 /* Display all stats for the tree as shown in the examples and
-                                            // call all display order methods.*/
-
-
-bool BinTree::addNode(int id, const string* dataString){
-    bool result=false;
-    if (id > 0 && dataString->length() > 0) {
-        DataNode *newNode = new DataNode();                         //Allocate Node
-        newNode->data.id = id;
-        newNode->data.information = *dataString;
-        newNode->right=nullptr;
-        newNode->left=nullptr;
-        result = (addNode(newNode, &root));
-    }
-    return result;
-}   //pass in and return the same as in previous
-//structures from previous assignments.
-
-
-
-bool BinTree::removeNode(int id){
-    bool result = false;
-    int tempCount = count;
-    root = removeNode(id, root);
-    if (count < tempCount){
-        result = true;
-    }
-    return result;
-}               //pass in and return the same as previous structures
-
-
-
-
-bool BinTree::getNode(Data* currentData, int id){
-    bool result = false;
-    if (id > 0) {
-        result = getNode(currentData, id, root);
-    }
-    return result;
 }
 
-
-bool BinTree::contains(int id){
-    bool result;
-    if (id > 0) {
-        result = contains(id, root);
-    }
-    else {
-        result = false;
-    }
-    return result;
+int BinTree::getCount(){                                //***return number of nodes
+    return count;
 }
 
-
-int BinTree::getHeight(){                    //dynamically calculate the height of the tree
+int BinTree::getHeight(){                               //***Dynamically calculate the height of the tree
     int height = getHeight(root);
     return height;
 }
 
-void BinTree::displayPreOrder(){
+void BinTree::displayPreOrder(){                        //***Pre-order printing
     cout <<endl<< "Pre-Order Traversal" << endl;
     displayPreOrder(root);
-}             //do a pre-order traversal, printing as you go
+}
 
-void BinTree::displayPostOrder(){
+void BinTree::displayPostOrder(){                       //***Post-order printing
     cout <<endl<< "Post-Order Traversal" << endl;
     displayPostOrder(root);
-}            //do a post-order traversal, printing as you go
+}
 
 
-
-void BinTree::displayInOrder() {
+void BinTree::displayInOrder() {                        //***In-order printing
     cout <<endl<< "In-Order Traversal" << endl;
-    displayInOrder(root);            //do an in-order traversal, printing as you
+    displayInOrder(root);
 }
 
 
-void BinTree::clear(){              //deallocate the tree and set it back to “empty.”
-    clear(root);
-    root = nullptr;
-}
+//************************************************************************************************************
 //*******************************************PRIVATE FUNCTIONS************************************************
-void BinTree::clear(DataNode* tempRoot) {
-        if (tempRoot->left != nullptr) {
-            clear(tempRoot->left);
-        }
-        if (tempRoot->right != nullptr) {
-            clear(tempRoot->right);
-        }
-    delete tempRoot;
-    count=0;
-}
+//************************************************************************************************************
 
 
-int BinTree::getHeight(DataNode* tempRoot){
-    int height=0;
-    if (tempRoot != nullptr) {
-        int lh = getHeight(tempRoot->left);
-        int rh = getHeight(tempRoot->right);
-        height = lh > rh ? lh + 1 : rh + 1;
-    }
-    return height;
-}
+//*********PRIVATE UTILITY FUNCTIONS**************************
 
-
-
-bool BinTree::addNode(DataNode* newNode, DataNode** tempRoot) {
-    bool result=false;
+bool BinTree::addNode(DataNode* newNode, DataNode** tempRoot) {             //***ADDS NODE TO TREE***
+    bool result=true;
     if (!(*tempRoot)) {
         *tempRoot = newNode;
         count +=1;
-        result = true;
     }
-    else if (newNode->data.id < (*tempRoot)->data.id) {          // Check if val is < or > this nodes value
-        if ((*tempRoot)->left == nullptr) {                      //Make new left Node
+    else if (newNode->data.id <= (*tempRoot)->data.id) {                     //check if val is < or > this nodes value
+        if ((*tempRoot)->left == nullptr) {                                 //make new left Node
             (*tempRoot)->left = newNode;
             count +=1;
-            result = true;
         } else {
-            addNode(newNode, &(*tempRoot)->left);                //recursively call going left
+            addNode(newNode, &(*tempRoot)->left);                  //recursively call going left
         }
-    } else {
+    }
+    //IF GOING RIGHT
+    else {
         if ((*tempRoot)->right == nullptr) {
-            (*tempRoot)->right = newNode;                        //make new right node
+            (*tempRoot)->right = newNode;                                  //make new right node
             count +=1;
-            result = true;
         }
         else {
             addNode(newNode, &(*tempRoot)->right);
@@ -189,7 +176,7 @@ bool BinTree::addNode(DataNode* newNode, DataNode** tempRoot) {
     return result;
 }
 
-DataNode* BinTree::removeNode(int id, DataNode* root){
+DataNode* BinTree::removeNode(int id, DataNode* root){          //***FINDS NODE IN TREE, DELETES, REORGANIZES***
     if(root != nullptr) {
         if (root->data.id != id) {
             if (id < (root)->data.id) {
@@ -201,44 +188,50 @@ DataNode* BinTree::removeNode(int id, DataNode* root){
         }
         if (root->data.id == id) {
             DataNode *temp;
-            if (root->left == nullptr) {                         //Node with one child or no child
+            if (root->left == nullptr) {                         //node with one child or no child
                 temp = root->right;
                 delete root;
                 root = temp;
                 count--;
             }
-            else if (root->right == nullptr) {                   //Node with one child or no child
+            else if (root->right == nullptr) {                   //node with one child or no child
                 temp = root->left;
                 delete root;
                 root = temp;
                 count--;
             }
-            else {                                              //Node with 2 children
+            else {                                              //node with 2 children
                 temp=minValueNode(root->right);
                 root->data.id = temp->data.id;
                 root->data.information = temp->data.information;
                 root->right = removeNode(temp->data.id, root->right);
-                }
+            }
         }
     }
-return root;
+    return root;
+}
+
+void BinTree::clear(DataNode* tempRoot) {                   //***CLEARS TREE AND DEALLOCATES***
+    if (tempRoot->left != nullptr) {
+        clear(tempRoot->left);
     }
-
-
-DataNode* BinTree::minValueNode(DataNode* node) {
-DataNode* current = node;
-while (current && current->left != nullptr) {
-    current = current->left;
-}
-return current;
+    if (tempRoot->right != nullptr) {
+        clear(tempRoot->right);
+    }
+    delete tempRoot;
+    count=0;
 }
 
-bool BinTree::getNode(Data* currentData, int id, DataNode* tempRoot){
+
+
+//*******************PRIVATE GET FUNCTIONS*******************
+
+bool BinTree::getNode(Data* currentData, int id, DataNode* tempRoot){           //***RETURN T/F AND CONTENTS IF  ID EXISTS IN TREE
     bool result = false;
     if (tempRoot != nullptr) {
         if (tempRoot->data.id != id) {
             if (id < (tempRoot)->data.id) {
-               result = getNode(currentData, id, (tempRoot)->left);
+                result = getNode(currentData, id, (tempRoot)->left);
             }
             else {
                 result = getNode(currentData, id, (tempRoot)->right);
@@ -254,7 +247,7 @@ bool BinTree::getNode(Data* currentData, int id, DataNode* tempRoot){
 }
 
 
-bool BinTree::contains(int id, DataNode* tempRoot){
+bool BinTree::contains(int id, DataNode* tempRoot){                     //***RETURN T/F IF ID EXISTS IN TREE
     bool result = false;
     if (tempRoot != nullptr) {
         if (tempRoot->data.id != id) {
@@ -272,7 +265,20 @@ bool BinTree::contains(int id, DataNode* tempRoot){
     return result;
 }
 
-void BinTree::displayInOrder(DataNode *temproot) {
+
+//*************PRIVATE DISPLAY AND TREE STAT FUNCTIONS*********************
+
+int BinTree::getHeight(DataNode* tempRoot){                                 //***DYNAMICALLY CALCULATE HEIGHT***
+    int height=0;
+    if (tempRoot != nullptr) {
+        int lh = getHeight(tempRoot->left);
+        int rh = getHeight(tempRoot->right);
+        height = lh > rh ? lh + 1 : rh + 1;
+    }
+    return height;
+}
+
+void BinTree::displayInOrder(DataNode *temproot) {                          //***IN-ORDER TREE DISPLAY***
 
     if (temproot) {
         if (temproot->left) {
@@ -284,7 +290,8 @@ void BinTree::displayInOrder(DataNode *temproot) {
         }
     }
 }
-void BinTree::displayPreOrder(DataNode* tempRoot){
+
+void BinTree::displayPreOrder(DataNode* tempRoot){                              //***PRE-ORDER TREE DISPLAY***
     if (tempRoot) {
         cout << tempRoot->data.id << " " << tempRoot->data.information << endl;
         displayPreOrder(tempRoot->left);
@@ -294,9 +301,8 @@ void BinTree::displayPreOrder(DataNode* tempRoot){
 
 }
 
-
-void BinTree::displayPostOrder(DataNode *tempRoot) {
-        if (tempRoot) {
+void BinTree::displayPostOrder(DataNode *tempRoot) {                            //***POST-ORDER TREE DISPLAY***
+    if (tempRoot) {
         displayPostOrder(tempRoot->left);
         displayPostOrder(tempRoot->right);
         cout << tempRoot->data.id << " " << tempRoot->data.information << endl;
@@ -304,9 +310,19 @@ void BinTree::displayPostOrder(DataNode *tempRoot) {
 
 }
 
+//*********HELPER FUNCTIONS**************************
 
 
+DataNode* BinTree::minValueNode(DataNode* node) {              //***FINDS SMALLEST NODE***
+DataNode* current = node;
+while (current && current->left != nullptr) {
+    current = current->left;
+}
+return current;
+}
 
-BinTree::~BinTree () {
+//*********DESTRUCTOR**************************
+
+BinTree::~BinTree () {                                      //***DESTRUCTOR***
     clear();
 }
